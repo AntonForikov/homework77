@@ -1,9 +1,9 @@
 export interface Message {
   author: string,
-  message: string
+  message: string,
+  image: File | null
 }
 
-// export interface MessageWithIdAndDate extends Message {
-//   id: string
-//   dateTime: string
-// }
+export interface MessageWithId extends Message {
+  id: string
+}

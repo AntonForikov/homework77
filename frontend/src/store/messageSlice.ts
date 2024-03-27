@@ -1,49 +1,42 @@
-import {Message} from '../types';
+import {MessageWithId} from '../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../app/store';
-import {getLastPostDate} from './messageThunk';
+import {getMessages, sendMessage} from './messageThunk';
 
-interface PostState {
-  postList: Message[],
+interface MessageState {
+  messageList: MessageWithId[],
   loading: boolean,
-  lastDate: string | null
 }
 
-const initialState: PostState = {
-  postList: [],
+const initialState: MessageState = {
+  messageList: [],
   loading: false,
-  lastDate: null
 };
 
 const messageSlice = createSlice({
-  name: 'post',
+  name: 'message',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getLastPostDate.pending, (state) => {
+    builder.addCase(sendMessage.pending, (state) => {
       state.loading = true;
-    }).addCase(getLastPostDate.fulfilled, (state) => {
+    }).addCase(sendMessage.fulfilled, (state) => {
       state.loading = false;
-      // if (action.payload) {
-      //   state.postList = action.payload;
-      //   if (action.payload.length > 0) state.lastDate = action.payload[0].dateTime;
-      // }
-    }).addCase(getLastPostDate.rejected, (state) => {
+    }).addCase(sendMessage.rejected, (state) => {
       state.loading = false;
     });
 
-    // builder.addCase(getTargetPosts.pending, (state) => {
-    //   state.loading = true;
-    // }).addCase(getTargetPosts.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   if (action.payload) state.postList = action.payload;
-    // }).addCase(getTargetPosts.rejected, (state) => {
-    //   state.loading = false;
-    // });
+    builder.addCase(getMessages.pending, (state) => {
+      state.loading = true;
+    }).addCase(getMessages.fulfilled, (state, {payload: messages}) => {
+      state.loading = false;
+      if (messages) state.messageList = messages;
+    }).addCase(getMessages.rejected, (state) => {
+      state.loading = false;
+    });
   }
 });
 
-export const postReducer = messageSlice.reducer;
-export const selectPostList = (state: RootState) => state.post.postList;
-export const selectLoading = (state: RootState) => state.post.loading;
-export const selectLastDate = (state: RootState) => state.post.lastDate;
+export const messageReducer = messageSlice.reducer;
+export const selectMessageList = (state: RootState) => state.message.messageList;
+export const selectLoading = (state: RootState) => state.message.loading;

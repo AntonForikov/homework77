@@ -1,29 +1,29 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axiosApi from '../axiosApi';
-import {Message} from '../types';
+import {Message, MessageWithId} from '../types';
 
-export const getLastPostDate = createAsyncThunk(
-  'lastPostData/get',
+export const sendMessage = createAsyncThunk(
+  'sendMessages/post',
+  async (message: Message) => {
+    try {
+      await axiosApi.post<MessageWithId | undefined>('/messages', message);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+export const getMessages = createAsyncThunk(
+  'getMessages/get',
   async () => {
     try {
-      const {data} = await axiosApi.get<Message[] | undefined>('/messages');
+      const {data} = await axiosApi.get<MessageWithId[] | undefined>('/messages');
       if (data) {
         return data.reverse();
+      } else {
+        return [];
       }
     } catch (e) {
       console.error(e);
     }
   }
 );
-
-// export const getTargetPosts = createAsyncThunk(
-//   'targetPosts/get',
-//   async (date: string) => {
-//     try {
-//       const {data: lastData} = await axiosApi.get<MessageWithIdAndDate[] | undefined>(`/messages?datetime=${date}`);
-//       if (lastData) return lastData.reverse();
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   }
-// );

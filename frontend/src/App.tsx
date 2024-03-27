@@ -1,8 +1,12 @@
+import MessageList from './components/Messages/MessageList';
+import AddForm from './components/AddForm/AddForm';
+
 function App() {
 
   return (
     <>
-      <div>Hello world</div>
+      <AddForm/>
+      <MessageList/>
     </>
   );
 }
