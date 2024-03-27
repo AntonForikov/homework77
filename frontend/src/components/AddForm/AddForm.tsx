@@ -42,10 +42,11 @@ const AddForm = () => {
     } else {
       try {
         await dispatch(sendMessage(message));
-        setMessage(initialMessage);
       } catch (e) {
         console.error(e);
         alert('Please check URL or run backend server.');
+      } finally {
+        setMessage(initialMessage);
       }
     }
   };

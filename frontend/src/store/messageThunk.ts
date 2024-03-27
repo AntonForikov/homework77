@@ -6,7 +6,17 @@ export const sendMessage = createAsyncThunk(
   'sendMessages/post',
   async (message: Message) => {
     try {
-      await axiosApi.post<MessageWithId | undefined>('/messages', message);
+      const formData = new FormData();
+
+      const keys = Object.keys(message) as (keyof Message)[];
+
+      keys.forEach(key => {
+        const value = message[key];
+        if (value !== null) formData.append(key, value);
+      });
+
+
+      await axiosApi.post<MessageWithId | undefined>('/messages', formData);
     } catch (e) {
       console.error(e);
     }

@@ -10,11 +10,12 @@ const MessageItem: React.FC<Props> = ({message, author}) => {
 
   return (
     <Paper elevation={5} sx={{padding: 3, marginY: 2}}>
-      <Grid container direction='row'>
-        <Grid item direction='column'>
-          <Typography>Author: {author}</Typography>
-          <Typography>Message: {message}</Typography>
-        </Grid>
+      <Grid container direction='column'>
+        <Typography>Author: {author}</Typography>
+        <Typography>Message: {message}</Typography>
+        {/*<Grid item direction='column'>*/}
+        {/*  */}
+        {/*</Grid>*/}
       </Grid>
     </Paper>
   );
