@@ -16,6 +16,7 @@ const AddForm = () => {
   const loading = useAppSelector(selectLoading);
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<Message>(initialMessage);
+  const [fileName, setFileName] = useState('');
 
   const changeMessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -32,6 +33,7 @@ const AddForm = () => {
         ...prevState,
         [name]: files[0]
       }))
+      setFileName(files[0].name);
     }
   };
 
@@ -47,9 +49,11 @@ const AddForm = () => {
         alert('Please check URL or run backend server.');
       } finally {
         setMessage(initialMessage);
+        setFileName('');
       }
     }
   };
+
   return (
     <form onSubmit={onFormSubmit}>
       <Grid container direction='column' spacing={2}>
@@ -76,6 +80,7 @@ const AddForm = () => {
         <Grid item xs>
           <FileInput
             onChange={fileInputChangeHandler}
+            fileName={fileName}
             name='image'
             label='Image'
           />
