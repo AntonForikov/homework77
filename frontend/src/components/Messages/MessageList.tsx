@@ -3,6 +3,7 @@ import {Alert, CircularProgress, Grid} from '@mui/material';
 import MessageItem from './MessageItem';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectLoading, selectMessageList} from '../../store/messageSlice';
+import {getMessages} from '../../store/messageThunk';
 
 const MessageList = () => {
   const messageList = useAppSelector(selectMessageList);
@@ -11,25 +12,24 @@ const MessageList = () => {
 
 
   useEffect(() => {
-    // dispatch(getLastPostDate());
+    dispatch(getMessages());
   }, [dispatch]);
 
   return (
     <>
-      <MessageItem
-        message='test MSG'
-        author='Test Author'
-      />
       {loading
         ? <Grid container justifyContent='center' mt={2}><CircularProgress /></Grid>
         : !loading && messageList.length > 0
-          ? messageList.map((message) => {
+          ? <Grid container direction='row' gap={2} justifyContent='center'>
+            {messageList.map((message) => {
             return <MessageItem
-              key={crypto.randomUUID()}
-              message={message.message}
-              author={message.author}
-            />;
-          })
+            key={message.id}
+            message={message.message}
+            author={message.author}
+            image={message.image}
+          />;
+      })}
+          </Grid>
           : <Alert severity="warning" sx={{marginTop: 2}}>There are no messages. Write something!</Alert>
       }
     </>

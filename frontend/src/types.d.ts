@@ -4,6 +4,7 @@ export interface Message {
   image: File | null
 }
 
-export interface MessageWithId extends Message {
-  id: string
+export interface MessageWithIdAndImage extends Message {
+  id: string,
+  image: string | null
 }

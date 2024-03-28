@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axiosApi from '../axiosApi';
-import {Message, MessageWithId} from '../types';
+import {Message, MessageWithIdAndImage} from '../types';
 
 export const sendMessage = createAsyncThunk(
   'sendMessages/post',
@@ -16,7 +16,7 @@ export const sendMessage = createAsyncThunk(
       });
 
 
-      await axiosApi.post<MessageWithId | undefined>('/messages', formData);
+      await axiosApi.post<MessageWithIdAndImage | undefined>('/messages', formData);
     } catch (e) {
       console.error(e);
     }
@@ -26,7 +26,7 @@ export const getMessages = createAsyncThunk(
   'getMessages/get',
   async () => {
     try {
-      const {data} = await axiosApi.get<MessageWithId[] | undefined>('/messages');
+      const {data} = await axiosApi.get<MessageWithIdAndImage[] | undefined>('/messages');
       if (data) {
         return data.reverse();
       } else {

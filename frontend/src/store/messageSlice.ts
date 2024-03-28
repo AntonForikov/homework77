@@ -1,10 +1,10 @@
-import {MessageWithId} from '../types';
+import {MessageWithIdAndImage} from '../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../app/store';
 import {getMessages, sendMessage} from './messageThunk';
 
 interface MessageState {
-  messageList: MessageWithId[],
+  messageList: MessageWithIdAndImage[],
   loading: boolean,
 }
 

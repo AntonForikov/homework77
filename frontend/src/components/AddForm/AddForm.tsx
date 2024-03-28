@@ -5,7 +5,7 @@ import {Message} from '../../types';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectLoading} from '../../store/messageSlice';
 import FileInput from './FileInput';
-import {sendMessage} from '../../store/messageThunk';
+import {getMessages, sendMessage} from '../../store/messageThunk';
 
 const initialMessage: Message = {
   author: '',
@@ -28,12 +28,17 @@ const AddForm = () => {
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, files} = e.target;
+
     if (files) {
       setMessage(prevState => ({
         ...prevState,
         [name]: files[0]
       }))
-      setFileName(files[0].name);
+      if (files && files[0]) {
+        setFileName(files[0].name);
+      } else {
+        setFileName('');
+      }
     }
   };
 
@@ -44,6 +49,7 @@ const AddForm = () => {
     } else {
       try {
         await dispatch(sendMessage(message));
+        await dispatch(getMessages());
       } catch (e) {
         console.error(e);
         alert('Please check URL or run backend server.');
@@ -56,7 +62,7 @@ const AddForm = () => {
 
   return (
     <form onSubmit={onFormSubmit}>
-      <Grid container direction='column' spacing={2}>
+      <Grid container direction='column' spacing={2} marginBottom={2}>
         <Grid item xs>
           <TextField
             fullWidth
