@@ -1,6 +1,6 @@
 import {Button, Grid, TextField} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Message} from '../../types';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectLoading} from '../../store/messageSlice';
@@ -17,6 +17,13 @@ const AddForm = () => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<Message>(initialMessage);
   const [fileName, setFileName] = useState('');
+  const resetButtonRef = useRef<HTMLInputElement>(null);
+
+  const resetFileInput = () => {
+    if (resetButtonRef.current) {
+      resetButtonRef.current.click();
+    }
+  }
 
   const changeMessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -27,6 +34,7 @@ const AddForm = () => {
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log("HERE!!!")
     const {name, files} = e.target;
 
     if (files) {
@@ -34,15 +42,15 @@ const AddForm = () => {
         ...prevState,
         [name]: files[0]
       }))
-      if (files[0]) {
-        setFileName(files[0].name);
-      } else {
-        setFileName('');
-      }
+    }
+    if (files && files[0]) {
+      setFileName(files[0].name);
+    } else {
+      setFileName('');
     }
   };
 
-  const onFormSubmit = async (e: React.FormEvent) => {
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.message[0] === ' ' || message.message === '') {
       alert("You can't send message started from whitespace or it can't be empty!");
@@ -54,6 +62,7 @@ const AddForm = () => {
         console.error(e);
         alert('Please check URL or run backend server.');
       } finally {
+        resetFileInput();
         setMessage(initialMessage);
         setFileName('');
       }
@@ -97,6 +106,11 @@ const AddForm = () => {
           </Button>
         </Grid>
       </Grid>
+      <input
+        style={{display: 'none'}}
+        ref={resetButtonRef}
+        type='reset'
+      />
     </form>
   );
 };
