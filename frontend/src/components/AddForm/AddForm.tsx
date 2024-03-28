@@ -34,7 +34,7 @@ const AddForm = () => {
         ...prevState,
         [name]: files[0]
       }))
-      if (files && files[0]) {
+      if (files[0]) {
         setFileName(files[0].name);
       } else {
         setFileName('');
