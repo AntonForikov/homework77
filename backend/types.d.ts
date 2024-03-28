@@ -1,10 +1,9 @@
 
 export interface Message {
+  id: string,
   message: string,
   author: string,
+  image: string | null
 }
 
-// export interface MessageWithIdAndDate extends Message {
-//   id: string,
-//   dateTime: Date
-// }
+export type MessageWithOutId = Omit<Message, 'id'>

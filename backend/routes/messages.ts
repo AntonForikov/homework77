@@ -1,18 +1,20 @@
 import express from 'express';
-import {Message} from '../types';
+import {Message, MessageWithOutId} from '../types';
 import fileDB from '../fileDB';
+import {imagesUpload} from '../multer';
 
 const messageRouter = express.Router();
 
-messageRouter.post('/', async (req, res) => {
+messageRouter.post('/', imagesUpload.single('image'), async (req, res) => {
   const {author, message} = req.body;
   if (message === '' || message === ' ') {
     return res.status(404).json({error: 'Message must be present in the request.'});
   }
 
-  const objToBase: Message = {
+  const objToBase: MessageWithOutId = {
     message,
     author,
+    image: req.file ? req.file.filename : null
   };
   const result = await fileDB.addItem(objToBase);
   return res.json(result);

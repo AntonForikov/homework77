@@ -1,5 +1,5 @@
 import {promises as fs} from 'fs';
-import {Message} from './types';
+import {Message, MessageWithOutId} from './types';
 
 const filename = './db.json';
 let data: Message[] = [];
@@ -21,11 +21,10 @@ const fileDB = {
   async getItems () {
     return data;
   },
-  async addItem (item: Message) {
+  async addItem (item: MessageWithOutId) {
     const message = {
-      // id: crypto.randomUUID(),
+      id: crypto.randomUUID(),
       ...item,
-      // dateTime: new Date()
     }
     data.push({...message});
     await this.save();
