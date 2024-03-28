@@ -23,7 +23,7 @@ const AddForm = () => {
     if (resetButtonRef.current) {
       resetButtonRef.current.click();
     }
-  }
+  };
 
   const changeMessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -34,7 +34,6 @@ const AddForm = () => {
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("HERE!!!")
     const {name, files} = e.target;
 
     if (files) {
@@ -71,7 +70,7 @@ const AddForm = () => {
 
   return (
     <form onSubmit={onFormSubmit}>
-      <Grid container direction='column' spacing={2} marginBottom={2}>
+      <Grid container direction="column" spacing={2} marginBottom={2}>
         <Grid item xs>
           <TextField
             fullWidth
@@ -96,8 +95,8 @@ const AddForm = () => {
           <FileInput
             onChange={fileInputChangeHandler}
             fileName={fileName}
-            name='image'
-            label='Image'
+            name="image"
+            label="Image"
           />
         </Grid>
         <Grid item xs>
@@ -109,7 +108,7 @@ const AddForm = () => {
       <input
         style={{display: 'none'}}
         ref={resetButtonRef}
-        type='reset'
+        type="reset"
       />
     </form>
   );

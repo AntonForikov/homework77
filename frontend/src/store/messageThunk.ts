@@ -15,7 +15,6 @@ export const sendMessage = createAsyncThunk(
         if (value !== null) formData.append(key, value);
       });
 
-
       await axiosApi.post<MessageWithIdAndImage | undefined>('/messages', formData);
     } catch (e) {
       console.error(e);

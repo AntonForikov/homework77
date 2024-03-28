@@ -18,17 +18,17 @@ const MessageList = () => {
   return (
     <>
       {loading
-        ? <Grid container justifyContent='center' mt={2}><CircularProgress /></Grid>
+        ? <Grid container justifyContent="center" mt={2}><CircularProgress/></Grid>
         : !loading && messageList.length > 0
-          ? <Grid container direction='row' gap={2} justifyContent='center'>
+          ? <Grid container direction="row" gap={2} justifyContent="center">
             {messageList.map((message) => {
-            return <MessageItem
-            key={message.id}
-            message={message.message}
-            author={message.author}
-            image={message.image}
-          />;
-      })}
+              return <MessageItem
+                key={message.id}
+                message={message.message}
+                author={message.author}
+                image={message.image}
+              />;
+            })}
           </Grid>
           : <Alert severity="warning" sx={{marginTop: 2}}>There are no messages. Write something!</Alert>
       }
